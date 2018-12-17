@@ -24,5 +24,9 @@ test:
   stage: test
   tags:
     - docker
+  before_script:
+    - mkdir -p /go/src/github.com/kierachell/practice/
+    - cp -r $CI_PROJECT_DIR /go/src/github.com/kierachell/practice/
   script:
+    - cd /go/src/github.com/kierachell/practice/
     - go test -v -bench=.
