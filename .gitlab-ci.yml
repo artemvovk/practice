@@ -2,7 +2,6 @@
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay
-  PACKAGE_PATH: /go/src/github.com/kierachell/practice/
 
 stages:
   - build
@@ -10,9 +9,11 @@ stages:
 
 .anchors:
   - &inject-gopath
-      mkdir -p $(dirname ${PACKAGE_PATH})
-      && ln -s ${CI_PROJECT_DIR} ${PACKAGE_PATH}
-      && cd ${PACKAGE_PATH}
+      cd $GOPATH/src &&
+      mkdir -p github.com/${CI_PROJECT_NAMESPACE} &&
+      cd github.com/${CI_PROJECT_NAMESPACE} &&
+      ln -s ${CI_PROJECT_DIR}
+      && cd ${CI_PROJECT_NAME}
 
 build:
   stage: build
