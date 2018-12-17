@@ -16,7 +16,7 @@ build:
   before_script:
     - docker build -f Dockerfile -t kierachell/practice .
   script:
-    - docker run -it kierachell/practice
+    - docker run kierachell/practice
 
 test:
   stage: test
