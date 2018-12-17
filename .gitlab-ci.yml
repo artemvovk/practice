@@ -34,5 +34,4 @@ test:
   before_script:
     - *inject-gopath
   script:
-    - cd /go/src/github.com/kierachell/practice/
     - go test -v -bench=.
