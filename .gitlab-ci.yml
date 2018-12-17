@@ -1,0 +1,13 @@
+image: docker:latest
+stages:
+  - build
+  - test
+
+build:
+  before_script:
+    - docker build -f Dockerfile -t kierachell/practice .
+  script:
+    - docker run -it kierachell/practice
+
+test:
+  - go test -v -bench=.

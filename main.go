@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/kierachell/practice/data"
 )
 
 func main() {
+	fmt.Printf("Main function")
 }
 
 func twoSum(arr []int, target int) []int {
