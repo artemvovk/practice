@@ -4,10 +4,17 @@ stages:
   - test
 
 build:
+  stage: build
+  tags:
+    - docker
   before_script:
     - docker build -f Dockerfile -t kierachell/practice .
   script:
     - docker run -it kierachell/practice
 
 test:
-  - go test -v -bench=.
+  stage: test
+  tags:
+    - docker
+  script:
+    - go test -v -bench=.
