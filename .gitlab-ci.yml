@@ -1,9 +1,7 @@
-image: docker:latest
-services:
-  - docker:dind
 
 variables:
   DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay
 
 stages:
   - build
@@ -11,6 +9,9 @@ stages:
 
 build:
   stage: build
+  image: docker:latest
+  services:
+    - docker:dind
   tags:
     - docker
   before_script:
@@ -19,6 +20,7 @@ build:
     - docker run kierachell/practice
 
 test:
+  image: golang:1.11
   stage: test
   tags:
     - docker
