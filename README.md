@@ -1,10 +1,6 @@
 # CS Practice
 
----
-title: CS Practice repo
-author: Artem Vovk
-date: 12/16/2018
----
+I practice different algorithms, data structure manipulations, design patterns, etc.
 
 # Setup:
 
