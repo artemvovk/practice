@@ -80,3 +80,46 @@ OUTER:
 	}
 	return maxLen
 }
+
+func hashRabinKarp(text string, pattern string) int {
+	textBytes := []byte(text)
+	patternBytes := []byte(pattern)
+	prime := 32452867
+	alphabet := 256
+	var j int
+	N := len(text)
+	M := len(pattern)
+	patHash := 0
+	textHash := 0
+	h := 1
+	for i := 0; i < M-1; i++ {
+		h = (h * alphabet) % prime
+	}
+
+	for i := 0; i < M; i++ {
+		patHash = (alphabet*patHash + int(patternBytes[i])) % prime
+		textHash = (alphabet*textHash + int(textBytes[i])) % prime
+	}
+
+	for i := 0; i <= N; i++ {
+		if patHash == textHash {
+			for j = 0; j < M; j++ {
+				if textBytes[i+j] != patternBytes[j] {
+					break
+				}
+			}
+
+			if j == M {
+				return i
+			}
+		}
+
+		if i < N-M {
+			textHash = (alphabet*(textHash-int(textBytes[i])*h) + int(textBytes[i+M])) % prime
+			if textHash < 0 {
+				textHash = textHash + prime
+			}
+		}
+	}
+	return -1
+}

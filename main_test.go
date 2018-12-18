@@ -37,8 +37,16 @@ func BenchmarkAddTwoNumbers(b *testing.B) {
 
 func BenchmarkLengthOfLongestSubstring(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		randomString := generators.GenerateString()
+		randomString := generators.GenerateString(30, 1)
 		b.Logf("Generated string: %s\n", randomString)
 		b.Logf("Length of substring: %v\n", lengthOfLongestSubstring(randomString))
+	}
+}
+
+func BenchmarkRabinKarpHash(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		text := generators.GenerateString(1000, 100)
+		pattern := generators.GenerateString(5, 2)
+		b.Logf("Found %q at position %v\n", pattern, hashRabinKarp(text, pattern))
 	}
 }

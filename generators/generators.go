@@ -38,10 +38,10 @@ func GenerateListNodes() *data.ListNode {
 	return &headNode
 }
 
-func GenerateString() string {
+func GenerateString(maxLen int, minLen int) string {
 	const letterBytes = "abcdefghijklmnopqrstuvwxyz"
 	rand.Seed(time.Now().UnixNano())
-	n := rand.Intn(30) + 1
+	n := rand.Intn(maxLen) + minLen
 	b := make([]byte, n)
 	for i := range b {
 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
