@@ -58,3 +58,25 @@ func addTwoNumbers(l1 *data.ListNode, l2 *data.ListNode) *data.ListNode {
 	}
 	return &sumNode
 }
+
+func lengthOfLongestSubstring(s string) int {
+	byteArray := []byte(s)
+	maxLen := 0
+OUTER:
+	for outerIdx, _ := range byteArray {
+		charSet := make(map[byte]bool)
+		for innerIdx, char := range byteArray[outerIdx:] {
+			if _, found := charSet[char]; found {
+				if innerIdx > maxLen {
+					maxLen = len(charSet)
+				}
+				continue OUTER
+			}
+			charSet[char] = true
+		}
+		if len(charSet) > maxLen {
+			maxLen = len(charSet)
+		}
+	}
+	return maxLen
+}

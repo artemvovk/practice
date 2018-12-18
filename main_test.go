@@ -34,3 +34,11 @@ func BenchmarkAddTwoNumbers(b *testing.B) {
 		b.Logf("Resulting number: %v\n", sumNumber)
 	}
 }
+
+func BenchmarkLengthOfLongestSubstring(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		randomString := generators.GenerateString()
+		b.Logf("Generated string: %s\n", randomString)
+		b.Logf("Length of substring: %v\n", lengthOfLongestSubstring(randomString))
+	}
+}
