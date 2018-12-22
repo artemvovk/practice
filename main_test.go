@@ -50,3 +50,11 @@ func BenchmarkRabinKarpHash(b *testing.B) {
 		b.Logf("Found %q at position %v\n", pattern, hashRabinKarp(text, pattern))
 	}
 }
+
+func BenchmarkMurmurHash(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		testString := generators.GenerateString(30, 20)
+		hashed := hashMurmur3([]byte(testString), uint32(len(testString)))
+		b.Logf("String: %s hashed as: %v\n", testString, hashed)
+	}
+}
