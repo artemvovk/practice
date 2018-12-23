@@ -58,3 +58,17 @@ func BenchmarkMurmurHash(b *testing.B) {
 		b.Logf("String: %s hashed as: %v\n", testString, hashed)
 	}
 }
+
+func BenchmarkBloomFilter(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		hasher := func(data []byte, seed uint32) uint32 {
+			return hashMurmur3(data, seed)
+		}
+		filter := NewBloomFilter(2, 0.1, hasher)
+		testString := generators.GenerateString(20, 5)
+		filter.Add(testString)
+		b.Logf("Checking test string that was just added: %v\n", filter.Check(testString))
+		b.Logf("Checking test string that was not added: %v\n", filter.Check(generators.GenerateString(100, 30)))
+		b.Logf("Resulting bit array: %v\n", filter.BitArray)
+	}
+}
