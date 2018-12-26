@@ -3,17 +3,17 @@ package concurrency
 import (
 	"log"
 	"sync"
-
-	"github.com/kierachell/practice/generators"
 )
 
-func AckChannels() bool {
+type Runnable func(int) bool
+
+func AckChannels(work Runnable) bool {
 	sendChan := make(chan chan bool)
 	for i := 0; i < 10; i++ {
-		go func() {
+		go func(i int) {
 			in := <-sendChan
-			in <- generators.GenerateWork(10)
-		}()
+			in <- work(i)
+		}(i)
 	}
 
 	recvChan := make(chan bool)

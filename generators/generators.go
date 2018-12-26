@@ -1,9 +1,13 @@
 package generators
 
 import (
-	"github.com/kierachell/practice/data"
+	"fmt"
+	"log"
+	"math"
 	"math/rand"
 	"time"
+
+	"github.com/kierachell/practice/data"
 )
 
 func GenerateTwoSum() map[int][]int {
@@ -49,8 +53,22 @@ func GenerateString(maxLen int, minLen int) string {
 	return string(b)
 }
 
-func GenerateWork(wait int) bool {
+func GenerateWait(wait int) bool {
 	done := true
 	time.Sleep(time.Duration(wait) * time.Second)
+	log.Printf("Worked for %v seconds\n", wait)
+	return done
+}
+
+func GenerateWork(number int) bool {
+	done := true
+	iterations := float64(number * 1000)
+	for i := float64(0); i <= math.Abs(iterations); i++ {
+		for j := float64(0); j <= math.Abs(iterations); j++ {
+			out := math.Tan(math.Atan(math.Tan(math.Atan(math.Tan(math.Atan(iterations))))))
+			fmt.Sprintf("Calculated %v\n", out)
+
+		}
+	}
 	return done
 }
