@@ -1,11 +1,11 @@
-package main
+package hashers
 
 import (
 	"math"
 	"unsafe"
 )
 
-func hashRabinKarp(text string, pattern string) int {
+func HashRabinKarp(text string, pattern string) int {
 	textBytes := []byte(text)
 	patternBytes := []byte(pattern)
 	prime := 32452867
@@ -48,7 +48,17 @@ func hashRabinKarp(text string, pattern string) int {
 	return -1
 }
 
-func hashMurmur3(data []byte, seed uint32) uint32 {
+func HashFNV1a(data []byte, seed uint32) uint32 {
+	offset := uint32(2166136261)
+	hash := offset
+	for char := range data {
+		hash = hash ^ uint32(char)
+		hash = hash * offset
+	}
+	return hash
+}
+
+func HashMurmur3(data []byte, seed uint32) uint32 {
 	const1 := uint32(0xc9e2d51)
 	const2 := uint32(0x1b873593)
 	nblocks := len(data) / 4
@@ -93,6 +103,7 @@ func hashMurmur3(data []byte, seed uint32) uint32 {
 	return seed
 }
 
+// Bloom Filter Details
 type HashFunc func(data []byte, seed uint32) uint32
 
 type BloomFilter struct {

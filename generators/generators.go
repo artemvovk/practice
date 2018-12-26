@@ -48,3 +48,9 @@ func GenerateString(maxLen int, minLen int) string {
 	}
 	return string(b)
 }
+
+func GenerateWork(wait int) bool {
+	done := true
+	time.Sleep(time.Duration(wait) * time.Second)
+	return done
+}
