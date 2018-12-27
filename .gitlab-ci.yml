@@ -35,4 +35,4 @@ test:
   before_script:
     - *inject-gopath
   script:
-    - go test -v -bench=.
+    - go test -v -bench=. -benchmem ./...
