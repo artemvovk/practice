@@ -2,7 +2,6 @@ package generators
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"math/rand"
 	"time"
@@ -55,8 +54,8 @@ func GenerateString(maxLen int, minLen int) string {
 
 func GenerateWait(wait int) bool {
 	done := true
-	time.Sleep(time.Duration(wait) * time.Second)
-	log.Printf("Worked for %v seconds\n", wait)
+	time.Sleep(time.Duration(wait) * time.Millisecond)
+	fmt.Sprintf("Worked for %v milliseconds\n", wait)
 	return done
 }
 
