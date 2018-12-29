@@ -75,3 +75,33 @@ OUTER:
 	}
 	return maxLen
 }
+
+func AnagramSearch(pattern string, text string) []int {
+	var indecies []int
+	pLen := len(pattern)
+	tLen := len(text)
+	countP := make(map[rune]int, pLen)
+	countW := make(map[rune]int, pLen)
+	for idx, char := range pattern {
+		countP[char] += 1
+		countW[[]rune(text)[idx]] += 1
+	}
+
+	compare := func(countP, countW map[rune]int) bool {
+		for key, val := range countW {
+			if countP[key] != val {
+				return false
+			}
+		}
+		return true
+	}
+
+	for idx := pLen; idx < tLen; idx++ {
+		if compare(countP, countW) {
+			indecies = append(indecies, idx-pLen)
+		}
+		countW[[]rune(text)[idx]] += 1
+		countW[[]rune(text)[idx-pLen]] -= 1
+	}
+	return indecies
+}

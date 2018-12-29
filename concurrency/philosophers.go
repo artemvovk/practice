@@ -67,7 +67,6 @@ func (p Philosopher) Eat() {
 	for !ready {
 		generators.GenerateWait(rand.Intn(1))
 		ready = true
-		//log.Printf("Philosopher %v is waiting for chopsticks %v\n", p, p.Place)
 		for _, chopstick := range p.Place.Chopsticks {
 			if chopstick.IsUsed {
 				ready = false

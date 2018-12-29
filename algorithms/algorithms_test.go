@@ -42,3 +42,14 @@ func BenchmarkLengthOfLongestSubstring(b *testing.B) {
 		b.Logf("Length of substring: %v\n", LengthOfLongestSubstring(randomString))
 	}
 }
+
+func BenchmarkAnagramSearch(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		text := generators.GenerateString(300, 20)
+		pattern := "kjhll"
+		indecies := AnagramSearch(pattern, text)
+		if len(indecies) > 0 {
+			b.Logf("Found %s in %s at %v\n", pattern, text, indecies)
+		}
+	}
+}
