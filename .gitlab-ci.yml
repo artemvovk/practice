@@ -27,7 +27,18 @@ build:
   script:
     - docker run kierachell/practice
 
-test:
+test_python:
+  image: python:3.6.6
+  stage: test
+  tags:
+    - docker
+  before_script:
+    - cd ./python
+    - pip install -r requirements.txt
+  script:
+    - python -m unittest discover -s test
+
+test_go:
   image: golang:1.11
   stage: test
   tags:
