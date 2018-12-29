@@ -28,7 +28,7 @@ build:
     - docker run kierachell/practice
 
 test_python:
-  image: python:3.6.6
+  image: python:3.7.0
   stage: test
   tags:
     - docker
