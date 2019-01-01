@@ -6,7 +6,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"time"
 )
 
 const maxBufferSize = 1024
@@ -38,22 +37,21 @@ func ServerUDP(host, port string) error {
 	return err
 }
 
-func ClientUDP(host, port, message string) {
+func ClientUDP(host, port, message string) error {
 	packet := make([]byte, maxBufferSize)
 	conn, err := net.Dial("udp", net.JoinHostPort(host, port))
+	defer conn.Close()
 	if err != nil {
-		log.Printf("Some error %v", err)
-		return
+		return err
 	}
 	fmt.Fprintf(conn, message)
 	_, err = bufio.NewReader(conn).Read(packet)
 	if err == nil {
 		log.Printf("%s\n", packet)
 	} else {
-		log.Printf("Some error %v\n", err)
+		return err
 	}
-	conn.Close()
-
+	return nil
 }
 
 func handleUDP(pc *net.UDPConn) {
@@ -72,7 +70,6 @@ func handleUDP(pc *net.UDPConn) {
 			log.Printf("Received: bytes=%d from=%s\n",
 				n, addr.String())
 			log.Printf("Packet: %v", string(message))
-			time.Sleep(time.Second * 1)
 			n, err = pc.WriteTo(message[:n], addr)
 			if err != nil {
 				errHandler <- err

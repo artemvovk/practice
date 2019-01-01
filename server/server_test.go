@@ -1,14 +1,19 @@
 package server
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
 
-func TestUdpServer(t *testing.T) {
+func BenchmarkUdpServer(b *testing.B) {
 	host := "127.0.0.1"
 	port := "8080"
 	go ServerUDP(host, port)
+	// wait for server to start
 	time.Sleep(time.Millisecond * 10)
-	ClientUDP(host, port, "test")
+
+	for n := 0; n < b.N; n++ {
+		ClientUDP(host, port, fmt.Sprintf("test-%v", n))
+	}
 }
