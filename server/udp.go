@@ -37,6 +37,7 @@ func ServerUDP(host, port string) error {
 	return err
 }
 
+// Just for testing
 func ClientUDP(host, port, message string) error {
 	packet := make([]byte, maxBufferSize)
 	conn, err := net.Dial("udp", net.JoinHostPort(host, port))
