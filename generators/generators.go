@@ -25,14 +25,14 @@ func GenerateTwoSum() map[int][]int {
 	return testData
 }
 
-func GenerateListNodes() *data.ListNode {
+func GenerateListNodes(length int) *data.ListNode {
 	rand.Seed(time.Now().UTC().UnixNano())
 	headNode := data.ListNode{
 		Val: rand.Intn(9),
 	}
 	headNode.Next = &data.ListNode{}
 	next := headNode.Next
-	for idx := 0; idx <= rand.Intn(10); idx++ {
+	for idx := 0; idx <= length; idx++ {
 		next.Val = rand.Intn(9)
 		next.Next = &data.ListNode{}
 		next = next.Next
@@ -41,7 +41,7 @@ func GenerateListNodes() *data.ListNode {
 	return &headNode
 }
 
-func GenerateString(maxLen int, minLen int) string {
+func GenerateString(maxLen, minLen int) string {
 	const letterBytes = "abcdefghijklmnopqrstuvwxyz"
 	rand.Seed(time.Now().UnixNano())
 	n := rand.Intn(maxLen) + minLen

@@ -2,6 +2,7 @@
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay
+  GO111MODULE: on
 
 stages:
   - build
@@ -46,4 +47,5 @@ test_go:
   before_script:
     - *inject-gopath
   script:
+    - go mod download
     - go test -v -bench=. -benchmem ./...

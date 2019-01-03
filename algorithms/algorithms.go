@@ -105,3 +105,43 @@ func AnagramSearch(pattern string, text string) []int {
 	}
 	return indecies
 }
+
+func LinkedListIntersect(l1, l2 *data.ListNode) *data.ListNode {
+	count1 := getListLength(l1)
+	count2 := getListLength(l2)
+	getInstersect := func(i int, h1, h2 *data.ListNode) *data.ListNode {
+		c1 := *h1
+		c2 := *h2
+		for d := 0; d < i; d++ {
+			if &c2 == nil {
+				return nil
+			}
+			c1 = *c1.Next
+		}
+		for &c1 != nil && &c2 != nil {
+			if c1 == c2 {
+				return &c1
+			}
+			c1 = *c1.Next
+			c2 = *c2.Next
+		}
+
+		return nil
+	}
+	if count1 > count2 {
+		diff := count1 - count2
+		return getInstersect(diff, l1, l2)
+	} else {
+		diff := count2 - count1
+		return getInstersect(diff, l2, l1)
+	}
+	return l1
+}
+
+func getListLength(head *data.ListNode) int {
+	length := 0
+	for current := head; current != nil; current = current.Next {
+		length += 1
+	}
+	return length
+}

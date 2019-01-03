@@ -1,8 +1,10 @@
 package algorithms
 
 import (
-	"github.com/kierachell/practice/generators"
+	"math/rand"
 	"testing"
+
+	"github.com/kierachell/practice/generators"
 )
 
 func BenchmarkTwoSum10(b *testing.B) {
@@ -19,8 +21,8 @@ func BenchmarkTwoSum10(b *testing.B) {
 func BenchmarkAddTwoNumbers(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		var sumNumber []int
-		l1 := generators.GenerateListNodes()
-		l2 := generators.GenerateListNodes()
+		l1 := generators.GenerateListNodes(10)
+		l2 := generators.GenerateListNodes(10)
 		sumNode := AddTwoNumbers(l1, l2)
 		next := sumNode.Next
 		for {
@@ -51,5 +53,26 @@ func BenchmarkAnagramSearch(b *testing.B) {
 		if len(indecies) > 0 {
 			b.Logf("Found %s in %s at %v\n", pattern, text, indecies)
 		}
+	}
+}
+
+func BenchmarkListIntersection(b *testing.B) {
+	l1 := generators.GenerateListNodes(10)
+	l2 := generators.GenerateListNodes(20)
+	index := 0
+	r := rand.Intn(9)
+	c1 := l1
+	c2 := l2
+	for c1 != nil {
+		if index == r {
+			c1.Next = c2.Next
+			break
+		}
+		c1 = c1.Next
+		c2 = c2.Next
+		index += 1
+	}
+	for n := 0; n < b.N; n++ {
+		b.Logf("Intersect node: %v", LinkedListIntersect(l1, l2))
 	}
 }
