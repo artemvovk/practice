@@ -1,15 +1,15 @@
-""" This is a docstring"""
-import sys
-
+""" HackerRank Python Practice """
 if __name__ == '__main__':
-    loops()
+    print("Run me from unit tests")
 
 def loops():
     end = int(input())
+    out = []
     if end < 0:
-        sys.exit()
+        return 0
     for i in range(0, end):
-        print(i**2)
+        out.append(i**2)
+    return out
 
 def is_leap(year):
     leap = False
