@@ -1,12 +1,28 @@
 package data
 
+type Stack []interface{}
+type Queue []interface{}
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
 	Prev *ListNode
 }
 
-type Stack []interface{}
+type GraphNode struct {
+	Val       int
+	Neighbors []*GraphNode
+}
+
+type DirectedGraphNode struct {
+	Val  int
+	To   []*DirectedGraphNode
+	From []*DirectedGraphNode
+}
+
+type Graph []*GraphNode
+
+type DirectedGraph []*DirectedGraphNode
 
 func (s Stack) Push(v interface{}) Stack {
 	return append(s, v)
@@ -17,21 +33,12 @@ func (s Stack) Pop() (Stack, interface{}) {
 	return s[:l-1], s[l-1]
 }
 
-type Queue []interface{}
-
 func (q Queue) Push(v interface{}) Queue {
 	return append(q, v)
 }
 
 func (q Queue) Pop() (Queue, interface{}) {
 	return q[1:], q[0]
-}
-
-type Graph []GraphNode
-
-type GraphNode struct {
-	Val       int
-	Neighbors []*GraphNode
 }
 
 func visit(v *GraphNode, visited []*GraphNode) bool {

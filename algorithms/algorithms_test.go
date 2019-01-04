@@ -80,8 +80,8 @@ func BenchmarkListIntersection(b *testing.B) {
 func BenchmarkDFS(b *testing.B) {
 	graph := *generators.GenerateGraph(1000)
 	for n := 1; n < b.N; n++ {
-		root := &graph[rand.Intn(len(graph))]
-		dest := &graph[rand.Intn(len(graph))]
+		root := graph[rand.Intn(len(graph))]
+		dest := graph[rand.Intn(len(graph))]
 		b.Logf("Staring DFS at %p to find %p and ended up at %p", root, dest, graph.DFS(root, dest))
 	}
 }
@@ -89,8 +89,15 @@ func BenchmarkDFS(b *testing.B) {
 func BenchmarkBFS(b *testing.B) {
 	graph := *generators.GenerateGraph(1000)
 	for n := 1; n < b.N; n++ {
-		root := &graph[rand.Intn(len(graph))]
-		dest := &graph[rand.Intn(len(graph))]
+		root := graph[rand.Intn(len(graph))]
+		dest := graph[rand.Intn(len(graph))]
 		b.Logf("Staring BFS at %p to find %p and ended up at %p", root, dest, graph.BFS(root, dest))
+	}
+}
+
+func BenchmarkBuildOrder(b *testing.B) {
+	for n := 1; n < b.N; n++ {
+		graph := *generators.GenerateDirectedGraph(100)
+		b.Logf("Build order%v", MakeBuildOrder(graph))
 	}
 }

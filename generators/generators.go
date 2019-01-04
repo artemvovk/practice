@@ -47,15 +47,46 @@ func GenerateGraph(size int) *data.Graph {
 		node := data.GraphNode{
 			Val: i,
 		}
-		graph = append(graph, node)
+		graph = append(graph, &node)
 	}
 	rand.Seed(time.Now().UnixNano())
 	for idx := 0; idx < len(graph); idx++ {
-		node := &graph[idx]
+		node := graph[idx]
 		neighborsCount := rand.Intn(size)
 		if neighborsCount%5 > 2 {
 			for t := 0; t < neighborsCount; t++ {
-				node.Neighbors = append(node.Neighbors, &graph[rand.Intn(size)])
+				node.Neighbors = append(node.Neighbors, graph[rand.Intn(size)])
+			}
+		}
+	}
+	return &graph
+}
+
+func GenerateDirectedGraph(size int) *data.DirectedGraph {
+	var graph data.DirectedGraph
+	for i := 0; i < size; i++ {
+		node := data.DirectedGraphNode{
+			Val: i,
+		}
+		graph = append(graph, &node)
+	}
+	rand.Seed(time.Now().UnixNano())
+	for idx := 0; idx < len(graph); idx++ {
+		node := graph[idx]
+		neighborsCount := rand.Intn(size)
+		if neighborsCount%5 < 3 {
+			for t := 0; t < neighborsCount; t++ {
+				to := graph[rand.Intn(size)]
+				circular := false
+				for _, dep := range node.From {
+					if dep == to {
+						circular = true
+					}
+				}
+				if !circular && to != node {
+					node.To = append(node.To, to)
+					to.From = append(to.From, node)
+				}
 			}
 		}
 	}

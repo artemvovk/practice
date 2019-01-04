@@ -145,3 +145,32 @@ func getListLength(head *data.ListNode) int {
 	}
 	return length
 }
+
+func MakeBuildOrder(projects data.DirectedGraph) []int {
+	remaining := len(projects)
+	order := make([]int, remaining)
+	lastCount := remaining
+	for remaining > 0 {
+		lastCount = remaining
+		for idx, _ := range projects {
+			if projects[idx] != nil && len(projects[idx].To) == 0 {
+				order[len(order)-remaining] = projects[idx].Val
+				for _, proj := range projects[idx].From {
+					for i, _ := range proj.To {
+						if proj.To[i] == projects[idx] {
+							proj.To[i] = proj.To[len(proj.To)-1]
+							proj.To = proj.To[:len(proj.To)-1]
+							break
+						}
+					}
+				}
+				projects[idx] = nil
+				remaining -= 1
+			}
+		}
+		if lastCount == remaining {
+			return order
+		}
+	}
+	return order
+}
