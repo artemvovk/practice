@@ -76,3 +76,11 @@ func BenchmarkListIntersection(b *testing.B) {
 		b.Logf("Intersect node: %v", LinkedListIntersect(l1, l2))
 	}
 }
+
+func BenchmarkDFS(b *testing.B) {
+	graph := *generators.GenerateGraph(1000)
+	for n := 1; n < b.N; n++ {
+		root := &graph[rand.Intn(len(graph))]
+		b.Logf("Staring DFS at %p and ended up at %p", root, graph.DFS(root))
+	}
+}

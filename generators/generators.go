@@ -41,6 +41,27 @@ func GenerateListNodes(length int) *data.ListNode {
 	return &headNode
 }
 
+func GenerateGraph(size int) *data.Graph {
+	var graph data.Graph
+	for i := 0; i < size; i++ {
+		node := data.GraphNode{
+			Val: i,
+		}
+		graph = append(graph, node)
+	}
+	rand.Seed(time.Now().UnixNano())
+	for idx := 0; idx < len(graph); idx++ {
+		node := &graph[idx]
+		neighborsCount := rand.Intn(size)
+		if neighborsCount%5 > 2 {
+			for t := 0; t < neighborsCount; t++ {
+				node.Neighbors = append(node.Neighbors, &graph[rand.Intn(size)])
+			}
+		}
+	}
+	return &graph
+}
+
 func GenerateString(maxLen, minLen int) string {
 	const letterBytes = "abcdefghijklmnopqrstuvwxyz"
 	rand.Seed(time.Now().UnixNano())
