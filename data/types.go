@@ -17,6 +17,16 @@ func (s Stack) Pop() (Stack, interface{}) {
 	return s[:l-1], s[l-1]
 }
 
+type Queue []interface{}
+
+func (q Queue) Push(v interface{}) Queue {
+	return append(q, v)
+}
+
+func (q Queue) Pop() (Queue, interface{}) {
+	return q[1:], q[0]
+}
+
 type Graph []GraphNode
 
 type GraphNode struct {
@@ -24,41 +34,71 @@ type GraphNode struct {
 	Neighbors []*GraphNode
 }
 
-func (g Graph) DFS(root *GraphNode) *GraphNode {
-	if root == nil {
-		return nil
+func visit(v *GraphNode, visited []*GraphNode) bool {
+	added := false
+	for i := 0; i < len(visited); i++ {
+		if visited[i] == v {
+			break
+		}
+		if visited[i] == nil {
+			visited[i] = v
+			added = true
+			break
+		}
+	}
+	return added
+}
+
+func (g Graph) DFS(root, dest *GraphNode) *GraphNode {
+	if root == nil || root == dest {
+		return root
 	}
 	visited := make([]*GraphNode, len(g))
 	stack := Stack{}
 	stack = stack.Push(root)
 
-	visit := func(v *GraphNode, visited []*GraphNode) bool {
-		added := false
-		for i := 0; i < len(visited); i++ {
-			if visited[i] == v {
-				break
-			}
-			if visited[i] == nil {
-				visited[i] = v
-				added = true
-				break
-			}
-		}
-		return added
-	}
-
 	for len(stack) > 0 {
-		tStack, inter := stack.Pop()
+		tStack, tVal := stack.Pop()
 		stack = tStack
-		root = inter.(*GraphNode)
+		root = tVal.(*GraphNode)
 		if visit(root, visited) == true {
-			// Just checking for dupes/loops
+			if root == dest {
+				return root
+			}
 		}
 		for _, v := range root.Neighbors {
 			if visit(v, visited) == true {
 				stack = stack.Push(v)
 			}
 		}
+	}
+
+	return root
+}
+
+func (g Graph) BFS(root, dest *GraphNode) *GraphNode {
+	if root == nil || root == dest {
+		return root
+	}
+	visited := make([]*GraphNode, len(g))
+	queue := Queue{}
+	queue = queue.Push(root)
+
+	for len(queue) > 0 {
+		tQueue, tVal := queue.Pop()
+		queue = tQueue
+		root = tVal.(*GraphNode)
+		if visit(root, visited) == true {
+			if root == dest {
+				return root
+			}
+		}
+		for _, v := range root.Neighbors {
+			if visit(v, visited) == true {
+				queue = queue.Push(v)
+			}
+		}
+
 	}
 
 	return root
