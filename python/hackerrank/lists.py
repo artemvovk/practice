@@ -1,4 +1,6 @@
 """ HackerRank Python Practice """
+import re
+
 if __name__ == '__main__':
     print("Run me from unit tests")
 
@@ -42,3 +44,11 @@ def nested(inp):
             if student[1] < secondary[0][1]:
                 break
     return sorted(list(map(lambda student: student[0], secondary)))
+
+def decode_matrix(n, j, matrix):
+    alphanum = r'[^a-zA-Z0-9]'
+    out = ''
+    for idx in range(j):
+        for row in range(n):
+            out += re.sub(alphanum, ' ', matrix[row][idx])
+    return re.sub(' +', ' ', out)

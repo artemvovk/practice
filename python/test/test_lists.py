@@ -51,3 +51,18 @@ class TestLists(unittest.TestCase):
         secondary = lists.nested(inp)
         print(secondary)
         self.assertTrue(len(secondary) > 0)
+
+    def test_matrix_script(self):
+        n = 7
+        j = 3
+        matrix = [
+            'Tsi',
+            'h%x',
+            'i #',
+            'sM ',
+            '$a ',
+            '#t%',
+            'ir!',
+        ]
+        print(lists.decode_matrix(n, j, matrix))
+        self.assertTrue(n > j)
