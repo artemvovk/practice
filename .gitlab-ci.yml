@@ -14,10 +14,7 @@ stages:
       mkdir -p github.com/${CI_PROJECT_NAMESPACE} &&
       cd github.com/${CI_PROJECT_NAMESPACE} &&
       ln -s ${CI_PROJECT_DIR} &&
-      cd ${CI_PROJECT_NAME} &&
-      echo "export PATH=$PATH:$GOPATH/bin" >> $HOME/.bash_profile &&
-      env
-
+      cd ${CI_PROJECT_NAME}
 
 build_docker:
   stage: build
@@ -38,8 +35,8 @@ build_proto:
     - docker
   before_script:
     - *inject-gopath
-    - GO111MODULE="off" go get -u github.com/golang/protobuf/protoc-gen-go
   script:
+    - GO111MODULE="off" go get -u github.com/golang/protobuf/protoc-gen-go
     - protoc --go_out=. data/*.proto
 
 test_python:
