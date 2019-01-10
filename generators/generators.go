@@ -6,6 +6,8 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/golang/protobuf/proto"
+
 	"github.com/kierachell/practice/data"
 )
 
@@ -122,4 +124,19 @@ func GenerateWork(number int) bool {
 		}
 	}
 	return done
+}
+
+func GenerateAppendEntry(index int) (*data.AppendEntryRequest, error) {
+	entry := &data.Entry{
+		Text: *proto.String(GenerateString(10, 20)),
+	}
+	info := &data.AppendEntryRequest{
+		Term:         *proto.Uint64(123),
+		LeaderId:     *proto.String("first"),
+		PrevLogEntry: *proto.Uint64(uint64(index - 1)),
+		PrevLogTerm:  *proto.Uint64(122),
+		LeaderCommit: *proto.Uint64(uint64(index)),
+		Entries:      []*data.Entry{entry},
+	}
+	return info, nil
 }

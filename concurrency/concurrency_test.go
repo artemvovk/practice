@@ -1,10 +1,13 @@
 package concurrency
 
 import (
-	"github.com/kierachell/practice/generators"
 	"math/rand"
 	"sync"
 	"testing"
+	"time"
+
+	"github.com/kierachell/practice/data"
+	"github.com/kierachell/practice/generators"
 )
 
 func BenchmarkChanOverChan(b *testing.B) {
@@ -15,7 +18,6 @@ func BenchmarkChanOverChan(b *testing.B) {
 }
 
 func BenchmarkPhilosophers(b *testing.B) {
-
 	for n := 0; n < b.N; n++ {
 		table := Init(5)
 		b.Logf("Made a table of %v\n", table)
@@ -35,5 +37,34 @@ func BenchmarkPhilosophers(b *testing.B) {
 			}(table[index])
 		}
 		wg.Wait()
+	}
+}
+
+func BenchmarkPassingMessages(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		clients := &Clients{}
+		for i := 0; i < 10; i++ {
+			worker := NewListener()
+			clients.Push(worker)
+		}
+		controller := &Controller{
+			Workers: clients,
+			Kill:    make(chan struct{}),
+		}
+		controller.Workers.Iter(func(l *Listener) {
+			l.quit = controller.Kill
+		})
+		messages := make([]*data.AppendEntryRequest, n)
+		r := rand.New(rand.NewSource(time.Now().Unix()))
+		for _, i := range r.Perm(n) {
+			req, _ := generators.GenerateAppendEntry(i)
+			messages[i] = req
+		}
+		controller.SendMessages(messages)
+		controller.Wg.Wait()
+		controller.Workers.Iter(func(l *Listener) {
+			b.Logf("Client %v has %v entries", l.id, len(l.state.Log))
+		})
+		controller.KillAll()
 	}
 }

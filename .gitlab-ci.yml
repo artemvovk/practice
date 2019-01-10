@@ -16,7 +16,7 @@ stages:
       ln -s ${CI_PROJECT_DIR}
       && cd ${CI_PROJECT_NAME}
 
-build:
+build_docker:
   stage: build
   image: docker:latest
   services:
@@ -28,9 +28,19 @@ build:
   script:
     - docker run kierachell/practice
 
+build_proto:
+  stage: build
+  image: golang:1.11
+  tags:
+    - docker
+  before_script:
+    - *inject-gopath
+  script:
+    - protoc --go_out=. data/*.proto
+
 test_python:
-  image: python:3.7.0
   stage: test
+  image: python:3.7.0
   tags:
     - docker
   before_script:
@@ -40,8 +50,8 @@ test_python:
     - python -m unittest discover -s test
 
 test_go:
-  image: golang:1.11
   stage: test
+  image: golang:1.11
   tags:
     - docker
   before_script:
