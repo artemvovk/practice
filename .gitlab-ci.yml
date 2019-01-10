@@ -35,7 +35,7 @@ build_proto:
     - docker
   before_script:
     - *inject-gopath
-    - apt-get update && apt-get install protobuf -y -q
+    - apt-get update && apt-get install protobuf-compiler -y -q
     - GO111MODULE="off" go get -u github.com/golang/protobuf/protoc-gen-go
   script:
     - protoc --go_out=. data/*.proto
