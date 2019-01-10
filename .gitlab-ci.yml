@@ -13,8 +13,9 @@ stages:
       cd $GOPATH/src &&
       mkdir -p github.com/${CI_PROJECT_NAMESPACE} &&
       cd github.com/${CI_PROJECT_NAMESPACE} &&
-      ln -s ${CI_PROJECT_DIR}
-      && cd ${CI_PROJECT_NAME}
+      ln -s ${CI_PROJECT_DIR} &&
+      cd ${CI_PROJECT_NAME} &&
+      echo "export PATH=${PATH}:${GOPATH}/bin" >> ${HOME}/.bash_profile
 
 build_docker:
   stage: build
