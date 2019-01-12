@@ -1,5 +1,8 @@
 # CS Practice
 
+[![](https://gitlab.com/kierachell/practice/badges/master/build.svg)](https://gitlab.com/kierachell/practice/pipelines)
+
+
 I practice different algorithms, data structure manipulations, design patterns, etc.
 
 ## Setup:
