@@ -23,3 +23,15 @@ message AppendEntryRequest {
     repeated Entry entries = 5;
     uint64 leaderCommit = 6;
 }
+
+message AppendEntryResponse {
+    uint64 commitIndex = 1;
+    bool   added = 2;
+}
+
+message RequestVoteRequest {
+    uint64 term = 1;
+    string candidateId = 2;
+    uint64 lastLogIndex = 3;
+    uint64 lastLogTerm = 4;
+}

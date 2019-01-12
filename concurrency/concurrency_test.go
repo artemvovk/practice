@@ -41,7 +41,7 @@ func BenchmarkPhilosophers(b *testing.B) {
 }
 
 func BenchmarkPassingMessages(b *testing.B) {
-	for n := 0; n < b.N; n++ {
+	for n := 10; n < b.N; n++ {
 		clients := &Clients{}
 		for i := 0; i < 10; i++ {
 			worker := NewListener()
@@ -61,6 +61,7 @@ func BenchmarkPassingMessages(b *testing.B) {
 			messages[i] = req
 		}
 		controller.SendMessages(messages)
+		controller.DetermineLeader()
 		controller.Wg.Wait()
 		controller.Workers.Iter(func(l *Listener) {
 			b.Logf("Client %v has %v entries", l.id, len(l.state.Log))
