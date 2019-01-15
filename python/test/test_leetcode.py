@@ -1,4 +1,5 @@
 """Testing LeetCode stuff"""
+import random
 import pytest
 from leetcode import problems
 
@@ -20,3 +21,38 @@ from leetcode import problems
 ])
 def test_is_number(test_input, expected):
     assert problems.is_number(test_input) == expected
+
+def create_tree(val):
+    root = problems.TreeNode(val)
+    current_node = root
+    leftovers = []
+    trunk = random.randint(2, 10)
+    for count in range(trunk):
+        if count%2:
+            current_node.left = problems.TreeNode(random.randint(0, 30))
+            current_node.right = problems.TreeNode(random.randint(0, 30))
+            leftovers.append(current_node.right)
+            current_node = current_node.left
+        else:
+            current_node.right = problems.TreeNode(random.randint(0, 30))
+            current_node.left = problems.TreeNode(random.randint(0, 30))
+            leftovers.append(current_node.left)
+            current_node = current_node.right
+    for node in leftovers:
+        node.right = problems.TreeNode(random.randint(0, 30))
+        node.left = problems.TreeNode(random.randint(0, 30))
+    print("Total made: {}".format(trunk + len(leftovers) + 2*len(leftovers)))
+    return root
+
+@pytest.mark.parametrize("test_input,expected", [
+    (10, 0),
+    (20, 0)
+])
+# pylint: disable=redefined-outer-name
+def test_min_camera_cover(test_input, expected):
+    root = create_tree(test_input)
+    cams, node = problems.min_cameras(0, root)
+    if cams == 0:
+        cams += 1
+    print("{} cameras needed with root {}".format(cams, node))
+    assert cams > expected
