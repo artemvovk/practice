@@ -20,6 +20,10 @@ def create_maze(length):
                 maze[y][x] = 'X'
     return maze
 
+def create_array(length):
+    out = [random.randint(abs(x-5), length) for x in range(length)]
+    return out
+
 @pytest.mark.parametrize("test_input,expected", [
     (10, 0),
     (20, 0)
@@ -41,3 +45,18 @@ def test_coin_game(test_input, expected):
     coins = create_coins(test_input)
     print(coins)
     assert problems.coin_game(coins) > expected
+
+
+@pytest.mark.parametrize("test_input,expected", [
+    (20, 10),
+    (100, 75),
+    (100, 0)
+])
+def test_interpolation_search(test_input, expected):
+    arr = create_array(test_input)
+    idx = problems.interpolation_search(arr, expected)
+    print(arr)
+    if idx == -1:
+        assert True
+        return
+    assert arr[idx] == expected
