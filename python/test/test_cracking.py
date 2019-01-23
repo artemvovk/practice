@@ -57,6 +57,5 @@ def test_hanoi_towers(test_input, expected):
         2: dynamic.Tower(0),
         3: dynamic.Tower(0)
     }
-    dynamic.print_towers(towers)
 
     assert dynamic.hanoi_towers(towers, 1, 3).get(3).stack == expected
