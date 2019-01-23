@@ -54,8 +54,7 @@ class Tower:
             return -1
         return self.stack[-1]
 
-
-
+# Do not use in CI
 def print_towers(towers):
     stdscr = curses.initscr()
     stdscr.clear()
@@ -96,5 +95,4 @@ def hanoi_towers(towers, source_tower, target_tower, to_move=None):
         towers = hanoi_towers(towers, source_tower, other_tower, to_move-1)
         towers = hanoi_towers(towers, source_tower, target_tower, 1)
         towers = hanoi_towers(towers, other_tower, target_tower)
-    print_towers(towers)
     return towers
