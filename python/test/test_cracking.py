@@ -1,7 +1,7 @@
 """Testing Cracking stuff"""
 import random
 import pytest
-from cracking import oop, dynamic
+from cracking import oop, dynamic, collections
 
 def generate_array(size):
     if not size:
@@ -59,3 +59,16 @@ def test_hanoi_towers(test_input, expected):
     }
 
     assert dynamic.hanoi_towers(towers, 1, 3).get(3).stack == expected
+
+@pytest.mark.parametrize("len1,len2", [
+    (10, 20),
+    (20, 2),
+    (100, 5),
+    (2, 100)
+])
+def test_sorted_merge(len1, len2):
+    arr1 = sorted(generate_array(len1))
+    arr2 = sorted(generate_array(len2))
+    expected = sorted(arr1 + arr2)
+    res = collections.sorted_merge(arr1, arr2)
+    assert res == expected

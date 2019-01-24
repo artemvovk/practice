@@ -25,6 +25,7 @@ def magic_index(arr):
             return i
     return -1
 
+# Hanoi Towers
 class Tower:
     def __init__(self, height=0):
         self.stack = [0]*height
