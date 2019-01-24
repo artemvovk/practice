@@ -25,3 +25,35 @@ def sorted_merge(arr1, arr2):
             idx2 += 1
             temp.append(current)
     return arr1
+
+class Listy:
+    def __init__(self, arr):
+        if not arr:
+            arr = []
+        self._arr = sorted(arr)
+
+    def __repr__(self):
+        return "{}".format(self._arr)
+
+    def get(self, index):
+        if index >= len(self._arr):
+            return -1
+        return self._arr[index]
+
+def listy_search(listy, num):
+    low_idx = 0
+    high_idx = 1
+    if listy.get(low_idx) > num:
+        return -1
+    while listy.get(high_idx) < num and listy.get(high_idx) != -1:
+        low_idx = high_idx
+        high_idx *= 10
+    if listy.get(high_idx) == num:
+        return listy.get(high_idx)
+    while low_idx < high_idx and listy.get(low_idx) != -1:
+        if listy.get(low_idx) == num:
+            return listy.get(low_idx)
+        low_idx += 1
+    if low_idx == high_idx:
+        return -1
+    return listy.get(low_idx)

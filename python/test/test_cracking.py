@@ -72,3 +72,17 @@ def test_sorted_merge(len1, len2):
     expected = sorted(arr1 + arr2)
     res = collections.sorted_merge(arr1, arr2)
     assert res == expected
+
+
+@pytest.mark.parametrize("size,num", [
+    (20, 10),
+    (20, 2),
+    (100, 5),
+    (2000, 1500)
+])
+def test_listy_search(size, num):
+    arr = generate_array(size)
+    expected = num in arr
+    listy = collections.Listy(arr)
+    found = collections.listy_search(listy, num) != -1
+    assert found == expected
