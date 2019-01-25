@@ -86,3 +86,14 @@ def test_listy_search(size, num):
     listy = collections.Listy(arr)
     found = collections.listy_search(listy, num) != -1
     assert found == expected
+
+@pytest.mark.parametrize("stream,numbers", [
+    ([5, 1, 4, 4, 5, 9, 7, 7, 7, 7, 13, 3], [1, 3, 4, 7]),
+])
+def test_ranker(stream, numbers):
+    ranker = collections.StreamRanker()
+    for num in stream:
+        ranker.track(num)
+    for val in numbers:
+        print("{} has rank {}".format(val, ranker.get_rank(val)))
+    assert True
