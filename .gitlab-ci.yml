@@ -49,7 +49,7 @@ test_python:
     - cd ./python
     - pip install -r requirements.txt
   script:
-    - pytest -v
+    - pytest --cov-config=.coveragerc --cov=../ -vv -s
 
 test_go:
   stage: test
