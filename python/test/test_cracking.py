@@ -97,3 +97,13 @@ def test_ranker(stream, numbers):
         ranker.track(num)
     for val, rank in numbers.items():
         assert ranker.get_rank(val) == rank
+
+@pytest.mark.parametrize("size", [
+    (100),
+    (200),
+    (300)
+])
+def test_peaks_and_valleys(size):
+    arr = generate_array(size)
+    res = collections.peaks_and_valleys(arr.copy())
+    assert res != arr

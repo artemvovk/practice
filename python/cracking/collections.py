@@ -82,5 +82,27 @@ class StreamRanker:
     def get_rank(self, num):
         return self._map.get(num, -1)
 
+def get_peak(arr, idx):
+    left = arr[idx-1] if idx > 0 else None
+    right = arr[idx+1] if idx < len(arr)-1 else None
+    if not left:
+        if not right:
+            return idx
+        peak = max(arr[idx], right)
+    elif not right:
+        peak = max(arr[idx], left)
+    else:
+        peak = max(arr[idx], max(left, right))
+    if peak == left:
+        return idx-1
+    if peak == right:
+        return idx+1
+    return idx
+
 def peaks_and_valleys(arr):
+    size = len(arr)
+    for idx in range(1, size, 2):
+        peak_idx = get_peak(arr, idx)
+        if idx != peak_idx:
+            arr[idx], arr[peak_idx] = arr[peak_idx], arr[idx]
     return arr
