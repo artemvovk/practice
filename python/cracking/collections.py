@@ -69,17 +69,18 @@ class StreamRanker:
     def track(self, val):
         new_rank = 0
         for num, rank in self._map.items():
-            rank = rank if rank > 0 else 1
+            if num < val and new_rank <= rank:
+                new_rank = rank + 1
             if num == val:
                 rank += 1
-                new_rank += 1
-            if num < val:
-                new_rank += rank
+                new_rank = rank
             if num > val:
                 rank += 1
             self._map.update({num: rank})
-
         self._map.update({val: new_rank})
 
     def get_rank(self, num):
         return self._map.get(num, -1)
+
+def peaks_and_valleys(arr):
+    return arr
