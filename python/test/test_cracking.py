@@ -1,7 +1,7 @@
 """Testing Cracking stuff"""
 import random
 import pytest
-from cracking import oop, dynamic, collections
+from cracking import oop, dynamic, collections, concurrent
 
 def generate_array(size):
     if not size:
@@ -107,3 +107,11 @@ def test_peaks_and_valleys(size):
     arr = generate_array(size)
     res = collections.peaks_and_valleys(arr.copy())
     assert res != arr
+
+@pytest.mark.parametrize("num", [
+    (100),
+    (200),
+    (300)
+])
+def test_mt_fizzbuzz(num):
+    assert concurrent.mt_fizzbuzz(num) == num
