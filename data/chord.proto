@@ -1,13 +1,10 @@
 syntax = "proto3";
 package data;
 
-import "google/protobuf/empty.proto";
-
 service ChordNode {
     rpc Insert(InsertRequest) returns (InsertResponse);
     rpc Join(JoinRequest) returns (JoinResponse);
     rpc Lookup(LookupRequest) returns (LookupResponse);
-    rpc Leave(google.protobuf.Empty) returns (Error);
 }
 
 message Error {
