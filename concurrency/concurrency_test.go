@@ -1,6 +1,7 @@
 package concurrency
 
 import (
+	"fmt"
 	"math/rand"
 	"sync"
 	"testing"
@@ -67,5 +68,32 @@ func BenchmarkPassingMessages(b *testing.B) {
 			b.Logf("Client %v has %v entries", l.id, len(l.state.Log))
 		})
 		controller.KillAll()
+	}
+}
+
+func BenchmarkDHT(b *testing.B) {
+	ringSize := b.N
+	testNode1 := NewChordNode(ringSize)
+	b.Logf("New node: %v", testNode1.Id)
+
+	for n := 10; n < b.N; n++ {
+		testNode2 := NewChordNode(ringSize)
+		for idx := 0; idx < n; idx++ {
+			testNode2 = NewChordNode(ringSize)
+			join := &data.JoinRequest{
+				NodeId: testNode2.Id,
+			}
+			testNode1.Join(join, testNode2)
+		}
+		insert := &data.InsertRequest{
+			Key:   fmt.Sprintf("%s-%v", "dank", n),
+			Value: fmt.Sprintf("%s-%v", "meme", n),
+		}
+		testNode2.Insert(insert)
+		lookup := &data.LookupRequest{
+			Key: insert.Key,
+		}
+		value := testNode1.Lookup(lookup)
+		b.Logf("Looked up: %v", value.Value)
 	}
 }
