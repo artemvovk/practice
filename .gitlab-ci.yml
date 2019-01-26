@@ -37,9 +37,8 @@ build_proto:
     - *inject-gopath
     - apt-get update && apt-get install protobuf-compiler -y -q
     - GO111MODULE="off" go get -u github.com/golang/protobuf/protoc-gen-go
-    - go mod download
   script:
-    - protoc --go_out=. data/*.proto
+    - protoc -I $GOPATH -I data --go_out=. data/*.proto
 
 test_python:
   stage: test
