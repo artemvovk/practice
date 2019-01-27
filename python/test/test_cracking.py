@@ -1,7 +1,7 @@
 """Testing Cracking stuff"""
 import random
 import pytest
-from cracking import oop, dynamic, collections, concurrent
+from cracking import oop, dynamic, collections, concurrent, hard
 
 def generate_array(size):
     if not size:
@@ -115,3 +115,16 @@ def test_peaks_and_valleys(size):
 ])
 def test_mt_fizzbuzz(num):
     assert concurrent.mt_fizzbuzz(num) == num
+
+@pytest.mark.parametrize("num1,num2", [
+    (1, 2),
+    (11, 21),
+    (39, 399),
+    (10000, 123),
+    (99999, 1),
+    (0, 0)
+])
+def testt_no_plus_add(num1, num2):
+    res = hard.no_plus_add(num1, num2)
+    print("Sum of {} and {} is {}".format(num1, num2, res))
+    assert int(res) == (num1 + num2)
