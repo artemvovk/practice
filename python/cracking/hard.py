@@ -1,4 +1,6 @@
 """Hard Stuff"""
+import math
+from . import bits
 def no_plus_add(num1, num2):
     nstr1 = str(num1)
     nstr2 = str(num2)
@@ -41,3 +43,23 @@ def no_plus_add(num1, num2):
     if not out:
         out = "0"
     return out
+
+def missing_int_by_bit(arr):
+    size = len(arr)
+    missing = None
+    for idx in range(size):
+        if not idx%2:
+            zero = bits.get_bit(arr[idx], 0)
+            if zero != 0:
+                missing = idx-1
+                zero = bits.get_bit(arr[idx-1], 0)
+                if zero != 0:
+                    missing = idx
+                print("Missing odd {}".format(bin(missing-1)))
+        if idx%2 and not missing:
+            one = bits.get_bit(arr[idx], int(math.log(max(idx-1, 1), 2)))
+            if one != 1:
+                missing = idx - 1
+        if missing:
+            return missing
+    return missing

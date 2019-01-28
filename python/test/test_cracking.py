@@ -11,6 +11,18 @@ def generate_array(size):
         arr[index] = random.randint(0, size+1)
     return arr
 
+def generate_sequential_array(low, high, miss=False):
+    if low == high:
+        return []
+    arr = []
+    remove = None
+    for idx in range(low, high):
+        arr.append(idx)
+    if miss:
+        remove = random.randint(8, len(arr)-2)
+        arr.pop(remove)
+    return arr, remove
+
 @pytest.mark.parametrize("test_input,expected", [
     (10, False),
 ])
@@ -124,7 +136,19 @@ def test_mt_fizzbuzz(num):
     (99999, 1),
     (0, 0)
 ])
-def testt_no_plus_add(num1, num2):
+def test_no_plus_add(num1, num2):
     res = hard.no_plus_add(num1, num2)
     print("Sum of {} and {} is {}".format(num1, num2, res))
     assert int(res) == (num1 + num2)
+
+
+@pytest.mark.parametrize("low,high", [
+    (0, 100),
+    (0, 220),
+    (0, 300)
+])
+def test_missing_int_by_bit(low, high):
+    arr, removed = generate_sequential_array(low, high, True)
+    print("Removed {}".format(removed))
+    diff = abs(hard.missing_int_by_bit(arr) - removed)
+    assert diff < 2

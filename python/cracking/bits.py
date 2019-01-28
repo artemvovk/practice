@@ -2,11 +2,11 @@
 from math import log
 
 def get_bit(number, index):
-    return (number & (1 << index)) != 0
+    return int((number & (1 << index)) != 0)
 
 def set_bit(number, val, index):
     mask = ~(1 << index)
-    return (number & mask) | (val << index)
+    return int((number & mask) | (val << index))
 
 def clear_most_significant(number, index):
     mask = (1 << index) - 1
