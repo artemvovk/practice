@@ -1,5 +1,6 @@
 """Testing Cracking stuff"""
 import random
+import uuid
 import pytest
 from cracking import oop, dynamic, collections, concurrent, hard
 
@@ -152,3 +153,17 @@ def test_missing_int_by_bit(low, high):
     print("Removed {}".format(removed))
     diff = abs(hard.missing_int_by_bit(arr) - removed)
     assert diff < 2
+
+@pytest.mark.parametrize("times", [
+    (1),
+    (5),
+    (7)
+])
+def test_letters_and_numbers(times):
+    arr = []
+    for _ in range(times):
+        add = list(str(uuid.uuid4()).replace("-", ""))
+        arr += add
+    subarray = hard.letters_and_numbers(arr)
+    print("Subarray {}".format(subarray))
+    assert subarray

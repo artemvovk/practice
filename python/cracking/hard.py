@@ -63,3 +63,36 @@ def missing_int_by_bit(arr):
         if missing:
             return missing
     return missing
+
+def letters_and_numbers(arr):
+    print("".join(arr))
+    letters = 0
+    numbers = 0
+    previous = ''
+    index_map = {}
+    for idx, char in enumerate(arr):
+        if char.isalpha():
+            if not previous.isalpha():
+                letters = 0
+            letters += 1
+            if letters == numbers:
+                start_idx = idx + 1 - letters - numbers
+                index_map.update({start_idx: letters})
+                numbers = 0
+        else:
+            if previous.isalpha():
+                numbers = 0
+            numbers += 1
+            if letters == numbers:
+                start_idx = idx + 1 - letters - numbers
+                index_map.update({start_idx: letters})
+                letters = 0
+        previous = char
+    max_idx = 0
+    max_val = 0
+    for key, val in index_map.items():
+        if val > max_val:
+            max_idx = key
+            max_val = val
+    print("Max length {}".format(index_map.get(max_idx)))
+    return arr[max_idx:(max_idx + index_map.get(max_idx) + index_map.get(max_idx))]
