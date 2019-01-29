@@ -192,3 +192,14 @@ def test_baby_names(amount):
     names = list(map(lambda word: (word, random.randint(2, 30)), names))
     stat_totals = hard.baby_names(names, nicks)
     assert stat_totals
+
+@pytest.mark.parametrize("offset", [
+    (10),
+    (20),
+    (100),
+    (1000)
+])
+def test_prime_multiples(offset):
+    multiple = hard.prime_multiples(offset)
+    print("{}th is {}".format(offset, multiple))
+    assert multiple > offset

@@ -116,3 +116,12 @@ def baby_names(name_stats, synonyms):
             total += name_stat[1]
             all_stats.update({nick: total})
     return all_stats
+
+def prime_multiples(offset):
+    primes = [3, 5, 7]
+    multiple = [1]
+    for idx in range(0, offset, 3):
+        for prime in primes:
+            base = multiple[idx]
+            multiple.append(base*prime)
+    return multiple[offset-1]
