@@ -96,3 +96,23 @@ def letters_and_numbers(arr):
             max_val = val
     print("Max length {}".format(index_map.get(max_idx)))
     return arr[max_idx:(max_idx + index_map.get(max_idx) + index_map.get(max_idx))]
+
+def baby_names(name_stats, synonyms):
+    all_names = {}
+    all_stats = {}
+    for pair in synonyms:
+        entry = all_names.get(pair[0], set())
+        entry.add(pair[1])
+        entry.add(pair[0])
+        all_names.update({pair[0]: entry})
+        entry = all_names.get(pair[1], set())
+        entry.add(pair[1])
+        entry.add(pair[0])
+        all_names.update({pair[1]: entry})
+    for name_stat in name_stats:
+        nicks = all_names.get(name_stat[0], [])
+        for nick in nicks:
+            total = all_stats.get(nick, 0)
+            total += name_stat[1]
+            all_stats.update({nick: total})
+    return all_stats

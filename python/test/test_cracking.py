@@ -2,6 +2,7 @@
 import random
 import uuid
 import pytest
+from random_word import RandomWords
 from cracking import oop, dynamic, collections, concurrent, hard
 
 def generate_array(size):
@@ -23,6 +24,18 @@ def generate_sequential_array(low, high, miss=False):
         remove = random.randint(8, len(arr)-2)
         arr.pop(remove)
     return arr, remove
+
+def generate_words(amount, with_synonyms=False):
+    rwords = RandomWords()
+    words = rwords.get_random_words(limit=amount)
+    synonyms = None
+    if with_synonyms:
+        synonyms = []
+        for idx, _ in enumerate(words):
+            if random.randint(20, 1000)%11 > 7 and idx < len(words)-1:
+                pair = (words[idx], words[idx+1])
+                synonyms.append(pair)
+    return words, synonyms
 
 @pytest.mark.parametrize("test_input,expected", [
     (10, False),
@@ -167,3 +180,15 @@ def test_letters_and_numbers(times):
     subarray = hard.letters_and_numbers(arr)
     print("Subarray {}".format(subarray))
     assert subarray
+
+@pytest.mark.parametrize("amount", [
+    (10),
+    (20),
+    (100),
+    (1000)
+])
+def test_baby_names(amount):
+    names, nicks = generate_words(amount, True)
+    names = list(map(lambda word: (word, random.randint(2, 30)), names))
+    stat_totals = hard.baby_names(names, nicks)
+    assert stat_totals
