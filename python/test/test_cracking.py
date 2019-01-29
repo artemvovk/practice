@@ -203,3 +203,18 @@ def test_prime_multiples(offset):
     multiple = hard.prime_multiples(offset)
     print("{}th is {}".format(offset, multiple))
     assert multiple > offset
+
+@pytest.mark.parametrize("size", [
+    (10),
+    (20),
+    (100),
+    (300)
+])
+
+def test_re_space(size):
+    words, _ = generate_words(size, False)
+    text = ''.join(words)
+    vocab = []
+    for _ in range(int(size*0.75)):
+        vocab.append(random.choice(words))
+    assert hard.re_space(text, vocab)

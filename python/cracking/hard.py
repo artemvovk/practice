@@ -1,5 +1,6 @@
 """Hard Stuff"""
 import math
+import re
 from . import bits
 def no_plus_add(num1, num2):
     nstr1 = str(num1)
@@ -125,3 +126,11 @@ def prime_multiples(offset):
             base = multiple[idx]
             multiple.append(base*prime)
     return multiple[offset-1]
+
+def upcase_group(matchobj):
+    return " " + matchobj.group(0).upper() + " "
+
+def re_space(text, vocab):
+    for word in vocab:
+        text = re.sub(word, upcase_group, text)
+    return text
