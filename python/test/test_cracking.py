@@ -230,3 +230,21 @@ def test_schedule(size):
     work = hard.schedule(arr)
     print("Appts: {}\n\tWork: {}".format(arr, work))
     assert work
+
+
+@pytest.mark.parametrize("size", [
+    (10),
+    (20),
+    (100),
+    (300)
+])
+def test_shortest_superseq(size):
+    arr = generate_array(size)
+    subarr = [arr[random.randint(2, size)],
+              arr[random.randint(2, size)],
+              arr[random.randint(2, size)]
+             ]
+    subseq = hard.shortest_superseq(arr, subarr)
+    print("In array {}\nSubarray {}\n\tsubsequence is {}"
+          .format(arr, subarr, arr[subseq[0]:subseq[1]]))
+    assert subarr

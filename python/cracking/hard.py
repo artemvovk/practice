@@ -147,3 +147,31 @@ def schedule(arr):
         one = current
         size -= 1
     return one
+
+def size_subarray(arr, subarray):
+    collected = []
+    size = 0
+    for num in arr:
+        size += 1
+        if num in subarray:
+            collected.append(num)
+        if sorted(collected) == sorted(subarray):
+            break
+    return size
+
+def shortest_superseq(arr, subarray):
+    starts = {}
+    size = len(arr)
+    idx = 0
+    while idx < size:
+        if arr[idx] in subarray:
+            subsize = size_subarray(arr[idx:], subarray)
+            starts.update({idx: subsize})
+        idx += 1
+    start = 0
+    max_size = 0
+    for idx, size in starts.items():
+        if size > max_size:
+            start = idx
+            max_size = size
+    return (start, start+max_size)
