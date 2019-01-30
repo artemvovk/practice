@@ -210,7 +210,6 @@ def test_prime_multiples(offset):
     (100),
     (300)
 ])
-
 def test_re_space(size):
     words, _ = generate_words(size, False)
     text = ''.join(words)
@@ -218,3 +217,16 @@ def test_re_space(size):
     for _ in range(int(size*0.75)):
         vocab.append(random.choice(words))
     assert hard.re_space(text, vocab)
+
+@pytest.mark.parametrize("size", [
+    (10),
+    (20),
+    (100),
+    (300)
+])
+def test_schedule(size):
+    arr = generate_array(size)
+    arr = [x*15 for x in arr]
+    work = hard.schedule(arr)
+    print("Appts: {}\n\tWork: {}".format(arr, work))
+    assert work

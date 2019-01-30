@@ -134,3 +134,16 @@ def re_space(text, vocab):
     for word in vocab:
         text = re.sub(word, upcase_group, text)
     return text
+
+def schedule(arr):
+    one = 0
+    two = 0
+    size = len(arr) - 1
+    while size > 0:
+        best = arr[size] + two
+        alt_best = one
+        current = max(best, alt_best)
+        two = one
+        one = current
+        size -= 1
+    return one
