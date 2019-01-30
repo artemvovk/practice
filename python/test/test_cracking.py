@@ -249,7 +249,13 @@ def test_shortest_superseq(size):
           .format(arr, subarr, arr[subseq[0]:subseq[1]]))
     assert subarr
 
-def test_volume_histogram():
-    arr = [0, 0, 4, 0, 0, 6, 0, 0, 3, 0, 8, 0, 2, 0, 5, 2, 0, 3, 0, 0]
+@pytest.mark.parametrize("arr", [
+    [0, 0, 4, 0, 0, 6, 0, 0, 3, 0, 8, 0, 2, 0, 5, 2, 0, 3, 0, 0],
+    [0, 2, 0, 0, 3, 0, 8, 0, 3, 0, 2, 5],
+    [9, 0, 4, 0, 0, 6, 0, 0, 3, 0, 8, 0, 2, 0, 5, 2, 0, 3, 0, 2],
+    [0, 0, 0, 0, 1, 0, 1]
+])
+def test_volume_histogram(arr):
     volume = hard.volume_histogram(arr)
+    print("Histogram: {}\nhas volume: {}".format(arr, volume))
     assert volume

@@ -177,11 +177,23 @@ def shortest_superseq(arr, subarray):
     return (start, start+max_size)
 
 def volume_histogram(arr):
-    tallest = {}
-    m_val = 0
-    for val, idx in enumerate(arr):
-        if val > m_val:
-            m_val = val
-            tallest = {idx: m_val}
-    print(tallest)
-    return sum(arr)
+    size = len(arr)
+    vol = 0
+
+    idx = 0
+    left_maxes = [0] * size
+    l_max = arr[idx]
+    while idx < size:
+        l_max = max(l_max, arr[idx])
+        left_maxes[idx] = l_max
+        idx += 1
+
+    idx = size-1
+    r_max = arr[idx]
+    while idx >= 0:
+        r_max = max(r_max, arr[idx])
+        sub_max = min(r_max, left_maxes[idx])
+        if sub_max > arr[idx]:
+            vol += sub_max - arr[idx]
+        idx -= 1
+    return vol
